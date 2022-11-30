@@ -55,11 +55,13 @@ while True:
             cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 3)
             nBOpenCar += 1
 
+    # Cria um retango na tela com a quantidade de vagas disponiveis
     cv2.rectangle(img, (10, 0), (415, 60), (255, 0, 0), -1)
     cv2.putText(img,
                 f'Vagas Livres: {nBOpenCar}/8',
                 (15, 25),
                 cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 10), 2, cv2.LINE_AA)
+
     cv2.imshow('Video', img)
     # cv2.imshow('Video TH', imgDil)
     cv2.waitKey(10)
