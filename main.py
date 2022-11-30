@@ -44,8 +44,11 @@ while True:
                     (x, y+h-10),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5,
                     (0, 0, 255), 2)
-
-        cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 3)
+        # Se quantidade de pixels brancos for maior que 3000
+        if nBWhitePx > 3000:
+            cv2.rectangle(img, (x, y), (x+w, y+h), (0, 0, 255), 3)
+        else:
+            cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 3)
 
     cv2.imshow('Video', img)
     #cv2.imshow('Video TH', imgDil)
