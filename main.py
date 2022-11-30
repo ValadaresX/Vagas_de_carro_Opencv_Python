@@ -33,23 +33,33 @@ while True:
     imgBlur = cv2.medianBlur(imgTh, 5)
     kernel = np.ones((3, 3), np.uint8)
     imgDil = cv2.dilate(imgBlur, kernel, iterations=1)
+    nBOpenCar = 0
 
     for x, y, w, h in vagas:
+
         # Calcular a quantidade de pixels brancos nas vagas
         clipping = imgDil[y:y+h, x:x+w]
         nBWhitePx = cv2.countNonZero(clipping)
+
         # Numero na pexels brancos (impresso na tela)
         cv2.putText(img,
                     str(nBWhitePx),
-                    (x, y+h-10),
+                    (x+5, y+h-5),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5,
-                    (0, 0, 255), 2)
+                    (0, 0, 255), 1, cv2.LINE_AA)
+
         # Se quantidade de pixels brancos for maior que 3000
         if nBWhitePx > 3000:
             cv2.rectangle(img, (x, y), (x+w, y+h), (0, 0, 255), 3)
         else:
             cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 3)
+            nBOpenCar += 1
 
+    cv2.rectangle(img, (10, 0), (415, 60), (255, 0, 0), -1)
+    cv2.putText(img,
+                f'Vagas Livres: {nBOpenCar}/8',
+                (15, 25),
+                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 10), 2, cv2.LINE_AA)
     cv2.imshow('Video', img)
-    #cv2.imshow('Video TH', imgDil)
+    # cv2.imshow('Video TH', imgDil)
     cv2.waitKey(10)
