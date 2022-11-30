@@ -50,9 +50,12 @@ while True:
 
         # Se quantidade de pixels brancos for maior que 3000
         if nBWhitePx > 3000:
-            cv2.rectangle(img, (x, y), (x+w, y+h), (0, 0, 255), 3)
+            cv2.rectangle(img, (x, y),
+                          (x+w, y+h), (0, 0, 255), 3)
+
         else:
-            cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 3)
+            cv2.rectangle(img, (x, y),
+                          (x+w, y+h), (0, 255, 0), 3)
             nBOpenCar += 1
 
     # Cria um retango na tela com a quantidade de vagas disponiveis
@@ -60,7 +63,8 @@ while True:
     cv2.putText(img,
                 f'Vagas Livres: {nBOpenCar}/8',
                 (15, 25),
-                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 10), 2, cv2.LINE_AA)
+                cv2.FONT_HERSHEY_SIMPLEX, 1,
+                (0, 255, 10), 2, cv2.LINE_AA)
 
     cv2.imshow('Video', img)
     # cv2.imshow('Video TH', imgDil)
