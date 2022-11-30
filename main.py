@@ -18,20 +18,35 @@ video = cv2.VideoCapture('video.mp4')
 
 while True:
     check, img = video.read()
-
-    # Gray image
-    imgray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    imgTh = cv2.adaptiveThreshold(
-        imgray, 255,
-        cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 25, 16)
-
     if not check:
         print('Fim...')
         break
 
+    # Gray image
+    imgray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    imgTh = cv2.adaptiveThreshold(
+        imgray,
+        255,
+        cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+        cv2.THRESH_BINARY_INV, 25, 16)
+
+    imgBlur = cv2.medianBlur(imgTh, 5)
+    kernel = np.ones((3, 3), np.uint8)
+    imgDil = cv2.dilate(imgBlur, kernel, iterations=1)
+
     for x, y, w, h in vagas:
-        cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        # Calcular a quantidade de pixels brancos nas vagas
+        clipping = imgDil[y:y+h, x:x+w]
+        nBWhitePx = cv2.countNonZero(clipping)
+        # Numero na pexels brancos (impresso na tela)
+        cv2.putText(img,
+                    str(nBWhitePx),
+                    (x, y+h-10),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5,
+                    (0, 0, 255), 2)
+
+        cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 3)
 
     cv2.imshow('Video', img)
-    cv2.imshow('Video TH', imgTh)
+    #cv2.imshow('Video TH', imgDil)
     cv2.waitKey(10)
