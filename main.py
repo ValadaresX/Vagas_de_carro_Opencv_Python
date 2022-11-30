@@ -22,14 +22,14 @@ while True:
         print('Fim...')
         break
 
-    # Gray image
+    # Imagem em escala de cinza
     imgray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     imgTh = cv2.adaptiveThreshold(
         imgray,
         255,
         cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
         cv2.THRESH_BINARY_INV, 25, 16)
-
+    # Imagem com contornos
     imgBlur = cv2.medianBlur(imgTh, 5)
     kernel = np.ones((3, 3), np.uint8)
     imgDil = cv2.dilate(imgBlur, kernel, iterations=1)
